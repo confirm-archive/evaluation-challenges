@@ -1,0 +1,61 @@
+version: "3.9"
+
+networks:
+  default:
+    driver: bridge
+
+services:
+
+  ##################
+  # Platform Stack #
+  ##################
+
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./volumes/minio/data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    volumes:
+      - ./volumes/rabbitmq/data/:/var/lib/rabbitmq
+      - ./volumes/rabbitmq/log/:/var/log/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_USERNAME=application
+      - RABBITMQ_PASSWORD=secretpassword
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q check_running && rabbitmq-diagnostics -q check_local_alarms"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+
+  #####################
+  # Application Stack #
+  #####################
+
+  # application:
+  #   image: application:local
+  #   ports:
+  #     - "8080:80"
+  #   links:
+  #     - minio
+  #     - rabbitmq
+  #   depends_on:
+  #     rabbitmq:
+  #       condition: service_healthy
+
+  # consumer:
+  #   image: application:local
+  #   links:
+  #     - minio
+  #     - rabbitmq
+  #   depends_on:
+  #     rabbitmq:
+  #       condition: service_healthy
