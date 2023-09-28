@@ -8,9 +8,9 @@ Before beginning, you should understand:
 - Docker
 
 The goal of this challenge is to create a simple system that accepts image uploads, processes
-them and stores them in `minio` (equivalent to S3). There already exists a
-`docker-compose.yml`, along with an example python script that contains the core logic to
-transform the image.
+them and stores them in something like S3. There already exists a `docker-compose.yml` file
+that sets up `minio` and `rabbitmq`, along with an example python script that contains the
+core logic to transform the image. Feel free to use all or none.
 
 Test vectors are provided below. Make sure you understand the diagram before beginning.
 
