@@ -50,3 +50,17 @@ The mechanism we'd like to see accomplish this is best described by this diagram
     - [ ] How you've configured your `minio` bucket (or provide scripts)
     - [ ] The amount of time this took you
 - [ ] Submit your code as a git bundle
+
+## Getting started
+
+You can run the tests directly, with the code provided.
+
+```sh
+cd fullstack
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.pip
+python consumer.py
+ls -S -l jason* | awk '{print $5, $9}'
+shasum -a256 jason*
+```
